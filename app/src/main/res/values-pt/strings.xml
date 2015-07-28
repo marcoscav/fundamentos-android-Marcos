@@ -10,4 +10,17 @@
     <string name="age">Idade</string>
     <string name="address">Endereço</string>
     <string name="phone">Telefone</string>
+    <string name="save">Salvar</string>
+    <string name="newClient">newClient</string>
+    <string name="required">Campo Obrigatório</string>
+    <string name="success">Success!</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="confirmDelete">Do you really want to delete?</string>
+    <string name="confirm">Confirm</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="consult">Consult</string>
+    <string name="cep">Cep</string>
+    <string name="find">Find</string>
 </resources>

@@ -26,7 +26,7 @@ public class LoginActivity extends AppCompatActivity {
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent goToMainActivity = new Intent(LoginActivity.this, ClientPersistActivity.class);
+                Intent goToMainActivity = new Intent(LoginActivity.this, ClientListActivity.class);
                 startActivity(goToMainActivity);
             }
         });

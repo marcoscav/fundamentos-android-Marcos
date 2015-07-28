@@ -49,4 +49,9 @@ public class ClientListAdapter extends BaseAdapter {
         textViewAge.setText(client.getAge().toString());
         return view;
     }
+
+    public void setClients(List<Client> clients) {
+        this.clientList = clients;
+    }
+
 }

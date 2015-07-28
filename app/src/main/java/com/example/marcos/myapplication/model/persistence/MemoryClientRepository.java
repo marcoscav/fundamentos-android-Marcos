@@ -18,7 +18,7 @@ public class MemoryClientRepository implements ClientRepository {
         clients = new ArrayList<Client>();
     }
 
-    public ClientRepository getInstance() {
+    public static ClientRepository getInstance() {
         if (MemoryClientRepository.singletonInstance == null) {
             MemoryClientRepository.singletonInstance = new MemoryClientRepository();
         }
