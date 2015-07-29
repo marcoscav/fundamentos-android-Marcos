@@ -3,7 +3,6 @@ package com.example.marcos.myapplication.model.entities;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.example.marcos.myapplication.model.persistence.MemoryClientRepository;
 import com.example.marcos.myapplication.model.persistence.SQLiteClientRepository;
 
 import java.io.Serializable;
@@ -17,8 +16,9 @@ public class Client implements Serializable, Parcelable {
     private Integer id;
     private String name;
     private Integer age;
-    private String address;
     private String phone;
+
+    private ClientAddress address;
 
     public Client() {
         super();
@@ -52,20 +52,33 @@ public class Client implements Serializable, Parcelable {
         this.age = age;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
     public String getPhone() {
         return phone;
     }
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public ClientAddress getAddress() {
+        return address;
+    }
+
+    public void setAddress(ClientAddress address) {
+        this.address = address;
+    }
+
+    public void save() {
+        SQLiteClientRepository.getInstance().save(this);
+    }
+
+    public static List<Client> getAll() {
+        return SQLiteClientRepository.getInstance().getAll();
+    }
+
+
+    public void delete() {
+        SQLiteClientRepository.getInstance().delete(this);
     }
 
     @Override
@@ -78,9 +91,8 @@ public class Client implements Serializable, Parcelable {
         if (id != null ? !id.equals(client.id) : client.id != null) return false;
         if (name != null ? !name.equals(client.name) : client.name != null) return false;
         if (age != null ? !age.equals(client.age) : client.age != null) return false;
-        if (address != null ? !address.equals(client.address) : client.address != null)
-            return false;
-        return !(phone != null ? !phone.equals(client.phone) : client.phone != null);
+        if (phone != null ? !phone.equals(client.phone) : client.phone != null) return false;
+        return !(address != null ? !address.equals(client.address) : client.address != null);
 
     }
 
@@ -89,31 +101,20 @@ public class Client implements Serializable, Parcelable {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (age != null ? age.hashCode() : 0);
-        result = 31 * result + (address != null ? address.hashCode() : 0);
         result = 31 * result + (phone != null ? phone.hashCode() : 0);
+        result = 31 * result + (address != null ? address.hashCode() : 0);
         return result;
-    }
-
-    public void save() {
-        SQLiteClientRepository.getInstance().save(this);
-    }
-
-    public static List<Client> getAll() {
-        return SQLiteClientRepository.getInstance().getAll();
     }
 
     @Override
     public String toString() {
         return "Client{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", age=" + age +
-                ", address='" + address + '\'' +
                 ", phone='" + phone + '\'' +
+                ", address=" + address +
                 '}';
-    }
-
-    public void delete() {
-        SQLiteClientRepository.getInstance().delete(this);
     }
 
     @Override
@@ -126,8 +127,8 @@ public class Client implements Serializable, Parcelable {
         dest.writeInt(id == null ? -1 : id);
         dest.writeString(name == null ? "" : name);
         dest.writeInt(age == null ? -1 : age);
-        dest.writeString(address == null ? "" : address);
         dest.writeString(phone == null ? "" : phone);
+        dest.writeSerializable(address);
     }
 
     public void readToParcel(Parcel in) {
@@ -136,8 +137,8 @@ public class Client implements Serializable, Parcelable {
         name = in.readString();
         int partialAge = in.readInt();
         age = partialAge == -1 ? null : partialAge;
-        address = in.readString();
         phone = in.readString();
+        address = (ClientAddress) in.readSerializable();
     }
 
     public static final Parcelable.Creator<Client> CREATOR = new Parcelable.Creator<Client>() {

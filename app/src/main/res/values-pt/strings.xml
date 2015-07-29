@@ -23,4 +23,9 @@
     <string name="consult">Consult</string>
     <string name="cep">Cep</string>
     <string name="find">Find</string>
+    <string name="tipoLogradouro">tipoLogradouro</string>
+    <string name="logradouro">Logradouro</string>
+    <string name="bairro">Bairro</string>
+    <string name="cidade">Cidade</string>
+    <string name="estado">Estado</string>
 </resources>

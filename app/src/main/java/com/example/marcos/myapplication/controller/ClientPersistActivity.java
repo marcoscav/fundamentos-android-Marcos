@@ -1,5 +1,6 @@
 package com.example.marcos.myapplication.controller;
 
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -16,15 +17,21 @@ import com.example.marcos.myapplication.model.entities.ClientAddress;
 import com.example.marcos.myapplication.model.services.CepService;
 import com.example.marcos.myapplication.util.FormHelper;
 
+import java.util.concurrent.ExecutionException;
+
 /**
  * Created by Marcos on 21/07/2015.
  */
 public class ClientPersistActivity extends AppCompatActivity {
     private EditText editTextName;
     private EditText editTextAge;
-    private EditText editTextAddress;
     private EditText editTextPhone;
     private EditText editTextCep;
+    private EditText editTextTipoLogradouro;
+    private EditText editTextLogradouro;
+    private EditText editTextBairro;
+    private EditText editTextCidade;
+    private EditText editTextEstado;
     private Button buttonFindCep;
 
     public static final String CLIENT_PARAM = "CLIENT_PARAM";
@@ -42,9 +49,13 @@ public class ClientPersistActivity extends AppCompatActivity {
     private void bindFields() {
         editTextName = (EditText) findViewById(R.id.editTextName);
         editTextAge = (EditText) findViewById(R.id.editTextAge);
-        editTextAddress = (EditText) findViewById(R.id.editTextAddress);
         editTextPhone = (EditText) findViewById(R.id.editTextPhone);
         editTextCep = (EditText) findViewById(R.id.editTextCep);
+        editTextTipoLogradouro = (EditText) findViewById(R.id.editTextTipoLogradouro);
+        editTextLogradouro = (EditText) findViewById(R.id.editTextLogradouro);
+        editTextBairro = (EditText) findViewById(R.id.editTextBairro);
+        editTextCidade = (EditText) findViewById(R.id.editTextCidade);
+        editTextEstado = (EditText) findViewById(R.id.editTextEstado);
         bindButtonFindCep();
     }
 
@@ -54,7 +65,19 @@ public class ClientPersistActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //CepService.getAddressBy(editTextCep.getText().toString());
-                new GetAddressByCep().execute(editTextCep.getText().toString());
+                AsyncTask<String, Void, ClientAddress> execute = new GetAddressByCep().execute(editTextCep.getText().toString());
+                try {
+                    ClientAddress address = execute.get();
+                    editTextTipoLogradouro.setText(address.getTipoDeLogradouro());
+                    editTextLogradouro.setText(address.getLogradouro());
+                    editTextBairro.setText(address.getBairro());
+                    editTextCidade.setText(address.getCidade());
+                    editTextEstado.setText(address.getEstado());
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -82,21 +105,31 @@ public class ClientPersistActivity extends AppCompatActivity {
         }
         client.setName(editTextName.getText().toString());
         client.setAge((editTextAge.getText().toString() != null && !editTextAge.getText().toString().isEmpty()) ? Integer.valueOf(editTextAge.getText().toString()) : null);
-        client.setAddress(editTextAddress.getText().toString());
         client.setPhone(editTextPhone.getText().toString());
+        ClientAddress address = new ClientAddress();
+        address.setTipoDeLogradouro(editTextTipoLogradouro.getText().toString());
+        address.setLogradouro(editTextLogradouro.getText().toString());
+        address.setBairro(editTextBairro.getText().toString());
+        address.setCidade(editTextCidade.getText().toString());
+        address.setEstado(editTextEstado.getText().toString());
+        client.setAddress(address);
     }
 
     private void bindForm(Client client) {
         editTextName.setText(client.getName());
         editTextAge.setText(client.getAge().toString());
-        editTextAddress.setText(client.getAddress());
         editTextPhone.setText(client.getPhone());
+        editTextBairro.setText(client.getAddress().getBairro());
+        editTextEstado.setText(client.getAddress().getEstado());
+        editTextCidade.setText(client.getAddress().getCidade());
+        editTextLogradouro.setText(client.getAddress().getLogradouro());
+        editTextTipoLogradouro.setText(client.getAddress().getTipoDeLogradouro());
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menuSave) {
-            if (FormHelper.requireValidate(ClientPersistActivity.this, editTextName, editTextAge, editTextAddress, editTextPhone)) {
+            if (FormHelper.requireValidate(ClientPersistActivity.this, editTextName, editTextAge, editTextPhone)) {
                 bindClient();
                 client.save();
                 //Intent goToPersistActivity = new Intent(ClientPersistActivity.this, ClientListActivity.class);
@@ -112,20 +145,22 @@ public class ClientPersistActivity extends AppCompatActivity {
     }
 
     private class GetAddressByCep extends AsyncTask<String, Void, ClientAddress> {
+        private ProgressDialog progressDialog;
 
-        //@Override
-        //protected void onPreExecute() {
-        //    super.onPreExecute();
-        //}
+        @Override
+        protected void onPreExecute() {
+            progressDialog = new ProgressDialog(ClientPersistActivity.this);
+            super.onPreExecute();
+        }
 
         @Override
         protected ClientAddress doInBackground(String... params) {
             return CepService.getAddressBy(params[0]);
         }
 
-        //@Override
-        //protected void onPostExecute(Void aVoid) {
-        //    super.onPostExecute(aVoid);
-        //}
+        @Override
+        protected void onPostExecute(ClientAddress clientAddress) {
+            progressDialog.dismiss();
+        }
     }
 }
