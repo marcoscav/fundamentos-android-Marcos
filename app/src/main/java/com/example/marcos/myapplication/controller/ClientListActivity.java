@@ -72,7 +72,7 @@ public class ClientListActivity extends AppCompatActivity {
                 Client client = (Client) parent.getItemAtPosition(position);
                 // Best Practices: http://stackoverflow.com/questions/4275678/how-to-make-phone-call-using-intent-in-android
                 final Intent goToSOPhoneCall = new Intent(Intent.ACTION_CALL /* or Intent.ACTION_DIAL (no manifest permission needed) */);
-                //ACTION_DIAL somente vai para o teclado do telefone, não precisando de autorização no manifest. diferente do CALL que ja liga direto
+                //ACTION_DIAL somente vai para o teclado do telefone, nao precisando de autorizacao no manifest. diferente do CALL que ja liga direto
                 //final Intent goToSOPhoneCall = new Intent(Intent.ACTION_DIAL /* or Intent.ACTION_DIAL (no manifest permission needed) */);
                 goToSOPhoneCall.setData(Uri.parse("tel:" + client.getPhone()));
                 startActivity(goToSOPhoneCall);
