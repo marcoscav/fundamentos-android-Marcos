@@ -32,7 +32,7 @@ public final class CepService {
             int responseCode = conn.getResponseCode();
 
             if (responseCode != HttpURLConnection.HTTP_OK) {
-                throw new RuntimeException("Error code: " + responseCode);
+                return null;
             }
             InputStream inputStream = conn.getInputStream();
             ObjectMapper objectMapper = new ObjectMapper();

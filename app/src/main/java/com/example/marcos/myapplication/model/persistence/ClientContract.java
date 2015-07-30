@@ -19,12 +19,13 @@ public class ClientContract {
     public static final String NAME = "Name";
     public static final String AGE = "Age";
     public static final String PHONE = "Phone";
+    public static final String CEP = "Cep";
     public static final String TIPO_LOGRADOURO = "Tipo_Logradouro";
     public static final String LOGRADOURO = "Logradouro";
     public static final String BAIRRO = "Bairro";
     public static final String CIDADE = "Cidade";
     public static final String ESTADO = "Estado";
-    public static final String[] COLUMNS = {ID, NAME, AGE, PHONE, TIPO_LOGRADOURO, LOGRADOURO, BAIRRO, CIDADE, ESTADO};
+    public static final String[] COLUMNS = {ID, NAME, AGE, PHONE, CEP, TIPO_LOGRADOURO, LOGRADOURO, BAIRRO, CIDADE, ESTADO};
 
     public static String getCreateSql() {
         StringBuilder sql = new StringBuilder();
@@ -35,6 +36,7 @@ public class ClientContract {
         sql.append(NAME + " TEXT, ");
         sql.append(AGE + " INTEGER, ");
         sql.append(PHONE + " TEXT, ");
+        sql.append(CEP + " TEXT, ");
         sql.append(TIPO_LOGRADOURO + " TEXT, ");
         sql.append(LOGRADOURO + " TEXT, ");
         sql.append(BAIRRO + " TEXT, ");
@@ -51,6 +53,7 @@ public class ClientContract {
         values.put(ClientContract.NAME, client.getName());
         values.put(ClientContract.AGE, client.getAge());
         values.put(ClientContract.PHONE, client.getPhone());
+        values.put(ClientContract.CEP, client.getAddress().getCep());
         values.put(ClientContract.TIPO_LOGRADOURO, client.getAddress().getTipoDeLogradouro());
         values.put(ClientContract.LOGRADOURO, client.getAddress().getLogradouro());
         values.put(ClientContract.BAIRRO, client.getAddress().getBairro());
@@ -67,6 +70,7 @@ public class ClientContract {
             client.setAge(cursor.getInt(cursor.getColumnIndex(ClientContract.AGE)));
             client.setPhone(cursor.getString(cursor.getColumnIndex(ClientContract.PHONE)));
             ClientAddress address = new ClientAddress();
+            address.setCep(cursor.getString(cursor.getColumnIndex(ClientContract.CEP)));
             address.setTipoDeLogradouro(cursor.getString(cursor.getColumnIndex(ClientContract.TIPO_LOGRADOURO)));
             address.setLogradouro(cursor.getString(cursor.getColumnIndex(ClientContract.LOGRADOURO)));
             address.setBairro(cursor.getString(cursor.getColumnIndex(ClientContract.BAIRRO)));

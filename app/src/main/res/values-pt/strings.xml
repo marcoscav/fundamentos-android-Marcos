@@ -11,21 +11,27 @@
     <string name="address">Endereço</string>
     <string name="phone">Telefone</string>
     <string name="save">Salvar</string>
-    <string name="newClient">newClient</string>
+    <string name="newClient">novo Cliente</string>
     <string name="required">Campo Obrigatório</string>
     <string name="success">Success!</string>
     <string name="delete">Delete</string>
     <string name="edit">Edit</string>
     <string name="confirmDelete">Do you really want to delete?</string>
-    <string name="confirm">Confirm</string>
-    <string name="yes">Yes</string>
-    <string name="no">No</string>
-    <string name="consult">Consult</string>
+    <string name="confirm">Confirma</string>
+    <string name="yes">Sim</string>
+    <string name="no">Não</string>
+    <string name="consult">Consultar</string>
     <string name="cep">Cep</string>
-    <string name="find">Find</string>
-    <string name="tipoLogradouro">tipoLogradouro</string>
+    <string name="find">Procurar</string>
+    <string name="tipoLogradouro">Tipo de Logradouro</string>
     <string name="logradouro">Logradouro</string>
     <string name="bairro">Bairro</string>
     <string name="cidade">Cidade</string>
     <string name="estado">Estado</string>
+    <string name="required_field">Campo Obrigatório!</string>
+    <string name="userInvalid">O Usuário ou senha informados não é valido!</string>
+    <string name="cepRequired">O campo CEP é requerido o preenchimento para encontrar o endereço.</string>
+    <string name="addressNotFound">Endereço não encontrado ou problema com a internet!</string>
+    <string name="loading">Carregando</string>
+
 </resources>

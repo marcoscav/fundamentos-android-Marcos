@@ -9,5 +9,6 @@
                 <item name="android:windowBackground">@color/material_50</item>
                 <!-- Works only on API 21 -->
                 <item name="android:navigationBarColor">@color/black_50_transparent</item>
+                <item name="android:buttonStyle">@style/MyButton</item>
         </style>
 </resources>
