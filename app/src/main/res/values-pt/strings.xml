@@ -14,9 +14,9 @@
     <string name="newClient">novo Cliente</string>
     <string name="required">Campo Obrigatório</string>
     <string name="success">Success!</string>
-    <string name="delete">Delete</string>
-    <string name="edit">Edit</string>
-    <string name="confirmDelete">Do you really want to delete?</string>
+    <string name="delete">Deletar</string>
+    <string name="edit">Editar</string>
+    <string name="confirmDelete">Tem certeza que deseja deletar??</string>
     <string name="confirm">Confirma</string>
     <string name="yes">Sim</string>
     <string name="no">Não</string>
@@ -33,5 +33,6 @@
     <string name="cepRequired">O campo CEP é requerido o preenchimento para encontrar o endereço.</string>
     <string name="addressNotFound">Endereço não encontrado ou problema com a internet!</string>
     <string name="loading">Carregando</string>
+    <string name="search">Busca</string>
 
 </resources>

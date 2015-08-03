@@ -33,4 +33,5 @@
     <string name="cepRequired">The field CEP is required to find the address!</string>
     <string name="addressNotFound">Address not found or Internet Connection problem!</string>
     <string name="loading">Loading</string>
+    <string name="search">Search</string>
 </resources>

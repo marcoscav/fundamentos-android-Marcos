@@ -10,8 +10,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -31,6 +33,8 @@ public class ClientListActivity extends AppCompatActivity {
     private ListView listViewClients;
     private Client client;
     private FloatingActionButton fabAdd;
+    private EditText editTextSearch;
+    private List<Client> clientList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,16 +42,39 @@ public class ClientListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         bindClientList();
-        bindFab();
+        bindControls();
     }
 
-    private void bindFab() {
+    private void bindControls() {
         fabAdd = (FloatingActionButton) findViewById(R.id.fabAdd);
         fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent goToPersistActivity = new Intent(ClientListActivity.this, ClientPersistActivity.class);
                 startActivity(goToPersistActivity);
+            }
+        });
+
+        editTextSearch = (EditText) findViewById(R.id.editTextSearch);
+        editTextSearch.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.ic_search, 0);
+        editTextSearch.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                final int DRAWABLE_LEFT = 0;
+                final int DRAWABLE_TOP = 1;
+                final int DRAWABLE_RIGHT = 2;
+                final int DRAWABLE_BOTTOM = 3;
+                if (editTextSearch.getText().toString() != null && !editTextSearch.getText().toString().equals("")) {
+                    if (event.getAction() == MotionEvent.ACTION_UP) {
+                        if (event.getRawX() >= (editTextSearch.getRight() - editTextSearch.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                            setClientList(Client.search(editTextSearch.getText().toString()));
+                        }
+                    }
+                } else {
+                    setClientList(getClients());
+                }
+                refreshClientList();
+                return false;
             }
         });
     }
@@ -119,7 +146,8 @@ public class ClientListActivity extends AppCompatActivity {
     }
 
     private List<Client> getClients() {
-        return Client.getAll();
+        setClientList(Client.getAll());
+        return getClientList();
     }
 
     @Override
@@ -136,7 +164,7 @@ public class ClientListActivity extends AppCompatActivity {
 
     private void refreshClientList() {
         ClientListAdapter adapter = (ClientListAdapter) listViewClients.getAdapter();
-        adapter.setClients(getClients());
+        adapter.setClients(getClientList());
         adapter.notifyDataSetChanged();
     }
 
@@ -158,5 +186,13 @@ public class ClientListActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public List<Client> getClientList() {
+        return clientList;
+    }
+
+    public void setClientList(List<Client> clientList) {
+        this.clientList = clientList;
     }
 }

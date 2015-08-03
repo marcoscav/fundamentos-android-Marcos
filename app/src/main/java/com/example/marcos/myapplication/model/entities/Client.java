@@ -76,6 +76,10 @@ public class Client implements Serializable, Parcelable {
         return SQLiteClientRepository.getInstance().getAll();
     }
 
+    public static List<Client> search(String parameter){
+        return SQLiteClientRepository.getInstance().search(parameter);
+    }
+
 
     public void delete() {
         SQLiteClientRepository.getInstance().delete(this);

@@ -17,6 +17,8 @@ public class SQLiteClientRepository implements ClientRepository {
 
     private static SQLiteClientRepository singletonInstance;
 
+    private static final String PERCENT = "%";
+
     private SQLiteClientRepository() {
         super();
     }
@@ -50,6 +52,19 @@ public class SQLiteClientRepository implements ClientRepository {
         DatabaseHelper helper = new DatabaseHelper(AppUtil.CONTEXT);
         SQLiteDatabase db = helper.getReadableDatabase();
         Cursor cursor = db.query(ClientContract.TABLE, ClientContract.COLUMNS, null, null, null, null, ClientContract.NAME);
+        clients = ClientContract.clientList(cursor);
+        db.close();
+        helper.close();
+        return clients;
+    }
+
+    public List<Client> search(String parameter) {
+        List<Client> clients = new ArrayList<>();
+        DatabaseHelper helper = new DatabaseHelper(AppUtil.CONTEXT);
+        SQLiteDatabase db = helper.getReadableDatabase();
+        String where = ClientContract.NAME + " LIKE ? OR " + ClientContract.AGE + " LIKE ? ";
+        String[] args = new String[]{PERCENT + parameter + PERCENT, PERCENT + parameter + PERCENT};
+        Cursor cursor = db.query(ClientContract.TABLE, ClientContract.COLUMNS, where, args, null, null, ClientContract.NAME);
         clients = ClientContract.clientList(cursor);
         db.close();
         helper.close();
